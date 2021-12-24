@@ -41,6 +41,5 @@ const devEnv = {
 const app = new App();
 
 new SoftChefInterviewTestMqttStack(app, 'SoftChefInterviewTestMqtt', { env: devEnv });
-// new MyStack(app, 'my-stack-prod', { env: prodEnv });
 
 app.synth();
