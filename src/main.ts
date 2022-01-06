@@ -1,4 +1,4 @@
-import { App, RemovalPolicy, Stack, StackProps } from 'aws-cdk-lib';
+import { App, CfnOutput, RemovalPolicy, Stack, StackProps } from 'aws-cdk-lib';
 import { Instance, InstanceClass, InstanceSize, InstanceType, MachineImage, Peer, Port, SecurityGroup, UserData, Vpc } from 'aws-cdk-lib/aws-ec2';
 import { Construct } from 'constructs';
 
@@ -28,6 +28,9 @@ export class SoftChefInterviewTestMqttStack extends Stack {
       userData: installMqttBroker,
       keyName: 'InterviewTestMqtt',
     });
+    new CfnOutput(this, 'MQTTBrokerEndpoint', {
+      value: mqttBrokerInstance.instancePublicIp,
+    });
     mqttBrokerInstance.applyRemovalPolicy(RemovalPolicy.DESTROY);
   }
 }
@@ -35,7 +38,7 @@ export class SoftChefInterviewTestMqttStack extends Stack {
 // for development, use account/region from cdk cli
 const devEnv = {
   account: process.env.CDK_DEFAULT_ACCOUNT,
-  region: process.env.CDK_DEFAULT_REGION,
+  region: 'ap-northeast-1', //process.env.CDK_DEFAULT_REGION,
 };
 
 const app = new App();
