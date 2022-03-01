@@ -9,7 +9,10 @@ import {
 dotenv.config();
 
 const app = new App();
-
+console.log({
+  account: process.env.CDK_DEPLOY_ACCOUNT,
+  region: process.env.CDK_DEPLOY_REGION,
+});
 new DevopsStack(app, 'DevopsStack', {
   env: {
     account: process.env.CDK_DEPLOY_ACCOUNT,

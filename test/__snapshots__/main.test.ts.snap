@@ -1,0 +1,146 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Snapshot 1`] = `
+Object {
+  "Outputs": Object {
+    "MQTTBrokerEndpoint": Object {
+      "Value": Object {
+        "Fn::GetAtt": Array [
+          "MqttServer38A23B0D",
+          "PublicIp",
+        ],
+      },
+    },
+  },
+  "Parameters": Object {
+    "BootstrapVersion": Object {
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+  },
+  "Resources": Object {
+    "MqttBrokerSecurityGroup4F007042": Object {
+      "Properties": Object {
+        "GroupDescription": "test/MqttBrokerSecurityGroup",
+        "SecurityGroupEgress": Array [
+          Object {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow all outbound traffic by default",
+            "IpProtocol": "-1",
+          },
+        ],
+        "SecurityGroupIngress": Array [
+          Object {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "MQTT Broker",
+            "FromPort": 1883,
+            "IpProtocol": "tcp",
+            "ToPort": 1883,
+          },
+        ],
+        "VpcId": "vpc-12345",
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+    "MqttServer38A23B0D": Object {
+      "DeletionPolicy": "Delete",
+      "DependsOn": Array [
+        "MqttServerInstanceRole4849547C",
+      ],
+      "Properties": Object {
+        "AvailabilityZone": "dummy1a",
+        "IamInstanceProfile": Object {
+          "Ref": "MqttServerInstanceProfile65D9C7C4",
+        },
+        "ImageId": "ami-0822295a729d2a28e",
+        "InstanceType": "t2.micro",
+        "KeyName": "InterviewTestMqtt",
+        "SecurityGroupIds": Array [
+          Object {
+            "Fn::GetAtt": Array [
+              "MqttBrokerSecurityGroup4F007042",
+              "GroupId",
+            ],
+          },
+        ],
+        "SubnetId": "p-12345",
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "test/MqttServer",
+          },
+        ],
+        "UserData": Object {
+          "Fn::Base64": "#!/bin/bash
+sudo apt-get update -y
+sudo apt-get install mosquitto -y
+sudo systemctl start mosquitto",
+        },
+      },
+      "Type": "AWS::EC2::Instance",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "MqttServerInstanceProfile65D9C7C4": Object {
+      "Properties": Object {
+        "Roles": Array [
+          Object {
+            "Ref": "MqttServerInstanceRole4849547C",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::InstanceProfile",
+    },
+    "MqttServerInstanceRole4849547C": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "ec2.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "test/MqttServer",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+  },
+  "Rules": Object {
+    "CheckBootstrapVersion": Object {
+      "Assertions": Array [
+        Object {
+          "Assert": Object {
+            "Fn::Not": Array [
+              Object {
+                "Fn::Contains": Array [
+                  Array [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                  ],
+                  Object {
+                    "Ref": "BootstrapVersion",
+                  },
+                ],
+              },
+            ],
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI.",
+        },
+      ],
+    },
+  },
+}
+`;
