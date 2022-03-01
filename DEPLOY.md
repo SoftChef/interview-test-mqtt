@@ -17,4 +17,6 @@ cdk deploy --profile your-aws-profile
 
 ## Deploy MQTT Broker Stack
 
+```
 cdk deploy DevopsStack/MqttBrokerApplication/MqttBrokerStack --profile your-aws-profile
+```
