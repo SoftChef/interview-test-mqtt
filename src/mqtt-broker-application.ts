@@ -8,10 +8,7 @@ import {
 import {
   MqttBrokerStack,
 } from './mqtt-broker-stack';
-console.log({
-  account: process.env.CDK_DEPLOY_ACCOUNT,
-  region: process.env.CDK_DEPLOY_REGION,
-});
+
 export class MqttBrokerApplication extends Stage {
   constructor(scope: Construct, id: string, props?: StageProps) {
     super(scope, id, props);
