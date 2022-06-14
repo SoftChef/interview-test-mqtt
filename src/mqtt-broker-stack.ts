@@ -40,7 +40,7 @@ export class MqttBrokerStack extends Stack {
       instanceType: InstanceType.of(InstanceClass.T2, InstanceSize.MICRO),
       vpc: vpc,
       machineImage: MachineImage.genericLinux({
-        'ap-northeast-1': 'ami-0822295a729d2a28e',
+        [process.env.CDK_DEPLOY_REGION!]: 'ami-08cb554d461f0eefe',
       }),
       securityGroup: securityGroup,
       userData: installMqttBroker,
